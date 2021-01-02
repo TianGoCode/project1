@@ -22,18 +22,22 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //posts
 Route::get('/create', [App\Http\Controllers\PostController::class, 'create'])->middleware('auth');
-Route::post('/create',[App\Http\Controllers\PostController::class, 'store']);
-Route::get('/show/{id}',[App\Http\Controllers\PostController::class, 'show']);
+Route::post('/create', [App\Http\Controllers\PostController::class, 'store']);
+Route::get('/show/{id}', [App\Http\Controllers\PostController::class, 'show']);
+//topic view
+Route::get('/topic/{id}', [App\Http\Controllers\PostController::class, 'topicView']);
+//category view
+Route::get('/category/{id}', [App\Http\Controllers\PostController::class, 'categoryView']);
 
 //admin
 Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index']);
-Route::get('/admin/approve',[App\Http\Controllers\AdminController::class, 'approve']);
-Route::get('/admin/topic',[App\Http\Controllers\AdminController::class, 'createTopic']);
-Route::get('/admin/users',[App\Http\Controllers\AdminController::class, 'users']);
+Route::get('/admin/approve', [App\Http\Controllers\AdminController::class, 'approve']);
+Route::get('/admin/topic', [App\Http\Controllers\AdminController::class, 'createTopic']);
+Route::get('/admin/users', [App\Http\Controllers\AdminController::class, 'users']);
 //admin/crud topic
-Route::post('/create_category',[App\Http\Controllers\AdminController::class, 'createNewCat']);
-Route::post('/edit_category',[App\Http\Controllers\AdminController::class, 'editCat']);
-Route::post('/delete_category',[App\Http\Controllers\AdminController::class, 'deleteCat']);
+Route::post('/create_category', [App\Http\Controllers\AdminController::class, 'createNewCat']);
+Route::post('/edit_category', [App\Http\Controllers\AdminController::class, 'editCat']);
+Route::post('/delete_category', [App\Http\Controllers\AdminController::class, 'deleteCat']);
 //admin/post
-Route::post('/approve',[App\Http\Controllers\AdminController::class, 'acceptPost']);
+Route::post('/approve', [App\Http\Controllers\AdminController::class, 'acceptPost']);
 

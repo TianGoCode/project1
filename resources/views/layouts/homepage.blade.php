@@ -43,8 +43,8 @@
                 <!-- SLIDE  -->
                 <li data-transition="fade" data-slotamount="7" data-masterspeed="1500">
                     <!-- MAIN IMAGE -->
-                    <img src="{{ asset("layout/images/6-01.jpg") }}" alt="slidebg1" data-bgfit="cover"
-                         data-bgposition="center" data-bgrepeat="no-repeat" data-bgsize="auto">
+                    <img src="{{ asset("layout/images/6-01.jpg") }}" alt="slidebg1" data-bgfit="contain"
+                         data-bgposition="center" data-bgrepeat="repeat-x" data-bgsize="auto">
                     <!-- LAYERS -->
                 </li>
             </ul>

@@ -1,28 +1,28 @@
 @extends('layouts.homepage')
 @section('content')
     <div class="list-group">
-        <a class="list-group-item active" aria-current="true">
+        <a href="'#" class="list-group-item active" aria-current="true">
             <div class="d-flex w-100 justify-content-between">
                 <h4 class="mb-1">Đại sảnh</h4>
             </div>
             <small>Thông báo và nội quy</small>
         </a>
-        <a href="#" class="list-group-item">
+        <a href="category/1" class="list-group-item">
             <div class="d-flex w-100 justify-content-between">
                 <h4 class="mb-1">Thông báo chung</h4>
-                @if(\Illuminate\Support\Facades\DB::table('posts')->where('category_id','=',5)->latest('updated_at')->first())
-                    <small class="text-muted">Bài viết mới nhất : {{ \Illuminate\Support\Facades\DB::table('posts')->where('category_id','=',5)->latest('updated_at')->first()->updated_at }}</small>
+                @if(\Illuminate\Support\Facades\DB::table('posts')->where('category_id','=',1)->latest('updated_at')->first())
+                    <small class="text-muted">Bài viết mới nhất : {{ \Illuminate\Support\Facades\DB::table('posts')->where('category_id','=',1)->latest('updated_at')->first()->updated_at }}</small>
                 @else
                     <small class="text-muted"> Chưa có cập nhật</small>
                 @endif
             </div>
 
         </a>
-        <a href="#" class="list-group-item">
+        <a href="category/2" class="list-group-item">
             <div class="d-flex w-100 justify-content-between">
                 <h4 class="mb-1">Nội quy forum</h4>
-                @if(\Illuminate\Support\Facades\DB::table('posts')->where('category_id','=',6)->latest('updated_at')->first())
-                    <small class="text-muted">Bài viết mới nhất : {{ \Illuminate\Support\Facades\DB::table('posts')->where('category_id','=',6)->latest('updated_at')->first()->updated_at }}</small>
+                @if(\Illuminate\Support\Facades\DB::table('posts')->where('category_id','=',2)->latest('updated_at')->first())
+                    <small class="text-muted">Bài viết mới nhất : {{ \Illuminate\Support\Facades\DB::table('posts')->where('category_id','=',2)->latest('updated_at')->first()->updated_at }}</small>
                 @else
                     <small class="text-muted"> Chưa có cập nhật</small>
                 @endif            </div>
@@ -58,17 +58,17 @@
     @foreach($topics as $topic)
         <!-- POST -->
         <div class="list-group">
-            <a class="list-group-item active" aria-current="true">
+            <a href="topic/{{ $topic->id }}" class="list-group-item active" aria-current="true">
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{ $topic->topic_name }}</h5>
+                    <h4 class="mb-1">{{ $topic->topic_name }}</h4>
                 </div>
                 <small>Tìm kiếm bài viết theo các chủ đề</small>
             </a>
             @foreach($categories as $category)
                 @if($category->topic_id == $topic->id)
-                    <a href="#" class="list-group-item">
+                    <a href="category/{{ $category->id }}" class="list-group-item">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">{{ $category->category_name }}</h5>
+                            <h4 class="mb-1">{{ $category->category_name }}</h4>
                             @if(\Illuminate\Support\Facades\DB::table('posts')->where('category_id','=',$category->id)->latest('updated_at')->first())
                                 <small class="text-muted">Bài viết mới nhất : {{ \Illuminate\Support\Facades\DB::table('posts')->where('category_id','=',$category->id)->latest('updated_at')->first()->updated_at }}</small>
                             @else

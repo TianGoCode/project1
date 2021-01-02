@@ -18,30 +18,30 @@ class PostController extends Controller
         }
 
         $post = Post::find($id);
-        if(!Auth::user()){
+        if (!Auth::user()) {
             if ($post->approved != 1) {
                 return redirect('/home');
             }
-            return view('post.show',['post'=>$post]);
+            return view('post.show', ['post' => $post]);
         }
         if (Auth::user()->is_admin == 1 || Auth::user()->id == $post->author_id) {
-            return view('post.show',['post'=>$post]);
+            return view('post.show', ['post' => $post]);
         }
 
-        return view('post.show',[
-            'post'=>$post
+        return view('post.show', [
+            'post' => $post
         ]);
     }
 
     public function create()
     {
         $categories = Category::all()->where('topic_id', '<>', 1);
-        $adminCat = Category::all()->where('topic_id','=',1);
+        $adminCat = Category::all()->where('topic_id', '=', 1);
         $topics = Topic::all()->skip(1);
         return view('post.create', [
             'categories' => $categories,
             'topics' => $topics,
-            'adminCat'=>$adminCat
+            'adminCat' => $adminCat
         ]);
     }
 
@@ -56,5 +56,31 @@ class PostController extends Controller
         $post->content = $request->input('content');
         $post->save();
         return redirect('/head');
+    }
+
+    public function categoryView($id)
+    {
+        if ($id == null) {
+            return redirect('/home');
+        }
+        $category = Category::find($id);
+        $post = Post::all()->where('category_id', '=', $id);
+        return view('post.category', [
+            'posts' => $post,
+            'category' => $category
+        ]);
+    }
+
+    public function topicView($id){
+        if ($id == null) {
+            return redirect('/home');
+        }
+        $topic = Topic::find($id);
+        $categories = Category::all()->where('topic_id','=',$id);
+
+        return view('post.topic', [
+            'categories' => $categories,
+            'topic'=>$topic
+        ]);
     }
 }

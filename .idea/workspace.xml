@@ -135,12 +135,12 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Programming\20201\pj1\project1\resources\views\layouts" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Programming\20201\pj1\project1\public" />
       <recent name="D:\Programming\20201\pj1\project1\public\css" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Programming\20201\pj1\project1\resources\views\layouts" />
     </key>
   </component>
   <component name="RunManager">
@@ -165,7 +165,7 @@
       <workItem from="1609433385701" duration="3729000" />
       <workItem from="1609465270207" duration="9231000" />
       <workItem from="1609514538264" duration="5776000" />
-      <workItem from="1609555235074" duration="14421000" />
+      <workItem from="1609555235074" duration="19310000" />
     </task>
     <servers />
   </component>
@@ -181,9 +181,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1609561104367" />
-    <state x="623" y="225" key="search.everywhere.popup" timestamp="1609560553885">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1609594194467">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1609560553885" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1609594194467" />
   </component>
 </project>
