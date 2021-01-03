@@ -11,10 +11,9 @@
 - yêu cầu: php - composer
 - sau khi đã tải project:chạy các command
     - composer update
-    - php artisan migrate --seed
     - tạo file .env, config database, tạo schema tương ứng trong csdl
-    - php artisan generate:key
     - php artisan key:generate
+    - php artisan migrate --seed
     - php artisan serve
     - tạo tài khoản đầu tiên, cấp quyền admin bằng tay.... :((((
 - đã bao gồm: giao diện admin và xem bài
