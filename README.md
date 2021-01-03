@@ -12,7 +12,10 @@
 - sau khi đã tải project:chạy các command
     - composer update
     - php artisan migrate
+    - tạo file .env, config database, tạo schema tương ứng trong csdl
+    - php artisan generate:key
+    - php artisan key:generate
     - php artisan serve
-- đã bao gồm: giao diện admin và xem bài, chưa có comment
+- đã bao gồm: giao diện admin và xem bài
 
 
