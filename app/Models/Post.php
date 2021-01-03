@@ -19,4 +19,8 @@ class Post extends Model
     public function topic(){
         return $this->belongsTo('App\Models\Topic','topic_id*');
     }
+
+    public function comment(){
+        return $this->hasMany('App\Models\Comment','post_id');
+    }
 }

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/home');
 });
 
 Auth::routes();
@@ -29,6 +29,9 @@ Route::get('/topic/{id}', [App\Http\Controllers\PostController::class, 'topicVie
 //category view
 Route::get('/category/{id}', [App\Http\Controllers\PostController::class, 'categoryView']);
 
+//comment
+Route::post('/add_comment',[App\Http\Controllers\CommentController::class, 'store']);
+
 //admin
 Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index']);
 Route::get('/admin/approve', [App\Http\Controllers\AdminController::class, 'approve']);
@@ -41,3 +44,7 @@ Route::post('/delete_category', [App\Http\Controllers\AdminController::class, 'd
 //admin/post
 Route::post('/approve', [App\Http\Controllers\AdminController::class, 'acceptPost']);
 
+Route::view('/test','test');
+Route::post('/test',function (\Illuminate\Http\Request $request){
+    return response()->json($request->all());
+});

@@ -16,7 +16,6 @@ class PostController extends Controller
         if ($id == null) {
             return redirect('/home');
         }
-
         $post = Post::find($id);
         if (!Auth::user()) {
             if ($post->approved != 1) {
@@ -24,6 +23,8 @@ class PostController extends Controller
             }
             return view('post.show', ['post' => $post]);
         }
+
+
         if (Auth::user()->is_admin == 1 || Auth::user()->id == $post->author_id) {
             return view('post.show', ['post' => $post]);
         }
@@ -36,7 +37,13 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all()->where('topic_id', '<>', 1);
-        $adminCat = Category::all()->where('topic_id', '=', 1);
+
+        if(Auth::user()->is_admin == 1){
+            $adminCat = Category::all()->where('topic_id', '=', 1);
+        } else {
+            $adminCat = null;
+        }
+
         $topics = Topic::all()->skip(1);
         return view('post.create', [
             'categories' => $categories,
@@ -71,16 +78,17 @@ class PostController extends Controller
         ]);
     }
 
-    public function topicView($id){
+    public function topicView($id)
+    {
         if ($id == null) {
             return redirect('/home');
         }
         $topic = Topic::find($id);
-        $categories = Category::all()->where('topic_id','=',$id);
+        $categories = Category::all()->where('topic_id', '=', $id);
 
         return view('post.topic', [
             'categories' => $categories,
-            'topic'=>$topic
+            'topic' => $topic
         ]);
     }
 }

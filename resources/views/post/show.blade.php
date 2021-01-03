@@ -19,6 +19,9 @@
                                                                                                alt=""><img
                         src="images/icon6.jpg" alt="">
                 </div>
+                <div>
+                    {{ $post->author->name }}
+                </div>
             </div>
             <div class="posttext pull-left">
                 <h2>{{ $post->title }}</h2>
@@ -54,17 +57,17 @@
         <div class="postinfobot">
 
             <div class="likeblock pull-left">
-                <a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>25</a>
-                <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>3</a>
+                <a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>0</a>
+                <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>0</a>
             </div>
 
             <div class="prev pull-left">
                 <a href="#"><i class="fa fa-reply"></i></a>
             </div>
 
-            <div class="posted pull-left"><i class="fa fa-clock-o"></i> Posted on : 20 Nov @ 9:30am</div>
+            <div class="posted pull-left"><i class="fa fa-clock-o"></i> Đăng vào ngày : {{ $post->updated_at }}</div>
 
-            <div class="next pull-right">
+            <div class="next pull-right" style="display: flex">
                 <a href="#"><i class="fa fa-share"></i></a>
 
                 <a href="#"><i class="fa fa-flag"></i></a>
@@ -79,60 +82,63 @@
         <hr>
     </div>
 
-    <!-- POST -->
-    <div class="post">
-        <div class="topwrap">
-            <div class="userinfo pull-left">
-                <div class="avatar">
-                    <img src="{{ asset("layout/images/avatar2.jpg") }}" alt="">
-                    <div class="status red">&nbsp;</div>
+    <!-- comment -->
+    @foreach($post->comment as $comment)
+        <div class="post">
+            <div class="topwrap">
+                <div class="userinfo pull-left" style="">
+                    <div class="avatar">
+                        <img src="{{ asset("layout/images/avatar2.jpg") }}" alt="">
+                        <div class="status red">&nbsp;</div>
+
+                    </div>
+
+                    <div class="icons">
+                        <img src="images/icon3.jpg" alt=""><img src="images/icon4.jpg" alt=""><img
+                            src="images/icon5.jpg"
+                            alt=""><img
+                            src="images/icon6.jpg" alt="">
+                    </div>
+                    <div>{{ $comment->user->name }}</div>
+                </div>
+                <div class="posttext pull-left" style="padding-left: 10px;border-left: 1px solid #f1f1f1f1;">
+                    <div>{!! $comment->content !!}</div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="postinfobot">
+
+                <div class="likeblock pull-left">
+                    <a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>0</a>
+                    <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>0</a>
                 </div>
 
-                <div class="icons">
-                    <img src="images/icon3.jpg" alt=""><img src="images/icon4.jpg" alt=""><img src="images/icon5.jpg"
-                                                                                               alt=""><img
-                        src="images/icon6.jpg" alt="">
+                <div class="prev pull-left">
+                    <a href="#"><i class="fa fa-reply"></i></a>
                 </div>
+
+                <div class="posted pull-left"><i class="fa fa-clock-o"></i> Đăng vào luc : {{ $comment->created_at }}
+                </div>
+                <div class="next pull-right">
+                    <a href="#"><i class="fa fa-share"></i></a>
+                    <a href="#"><i class="fa fa-flag"></i></a>
+                </div>
+                <div class="clearfix"></div>
             </div>
-            <div class="posttext pull-left">
-                <p>Typography helps you engage your audience and establish a distinct, unique personality on your
-                    website. Knowing how to use fonts to build character in your design is a powerful skill, and
-                    exploring the history and use of typefaces, as well as typogra...</p>
-            </div>
-            <div class="clearfix"></div>
         </div>
-        <div class="postinfobot">
-
-            <div class="likeblock pull-left">
-                <a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>10</a>
-                <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>1</a>
-            </div>
-
-            <div class="prev pull-left">
-                <a href="#"><i class="fa fa-reply"></i></a>
-            </div>
-
-            <div class="posted pull-left"><i class="fa fa-clock-o"></i> Posted on : 20 Nov @ 9:45am</div>
-
-            <div class="next pull-right">
-                <a href="#"><i class="fa fa-share"></i></a>
-
-                <a href="#"><i class="fa fa-flag"></i></a>
-            </div>
-
-            <div class="clearfix"></div>
-        </div>
-    </div><!-- POST -->
+    @endforeach
+    <!-- comment -->
 
 
 
-    <!-- POST -->
+    <!-- quote -->
     <div class="post">
         <div class="topwrap">
             <div class="userinfo pull-left">
                 <div class="avatar">
                     <img src="images/avatar3.jpg" alt="">
                     <div class="status red">&nbsp;</div>
+
                 </div>
 
                 <div class="icons">
@@ -140,6 +146,7 @@
                                                                                                alt=""><img
                         src="images/icon6.jpg" alt="">
                 </div>
+                <div>con chó</div>
             </div>
             <div class="posttext pull-left">
 
@@ -180,9 +187,10 @@
 
     <!-- POST -->
     <div class="post">
-        <form action="#" class="form" method="post">
+        <form action="/add_comment" class="form" method="post">
+            @csrf
             <div class="topwrap">
-                <div class="userinfo pull-left">
+                <div class="userinfo pull-left" style="">
                     <div class="avatar">
                         <img src="images/avatar4.jpg" alt="">
                         <div class="status red">&nbsp;</div>
@@ -192,11 +200,27 @@
                         <img src="images/icon3.jpg" alt=""><img src="images/icon4.jpg" alt=""><img
                             src="images/icon5.jpg" alt=""><img src="images/icon6.jpg" alt="">
                     </div>
+                    @auth()
+                    <div>
+                        {{ \Illuminate\Support\Facades\Auth::user()->name }}
+                    </div>
+                    @endauth
+                    @guest()
+                        <div>
+                            Khách
+                        </div>
+                    @endguest
                 </div>
-                <div class="posttext pull-left">
+                <div class="posttext pull-left" style="padding-left: 10px;border-left: 1px solid #f1f1f1f1;">
                     <div class="textwraper">
-                        <div class="postreply">Post a Reply</div>
-                        <textarea name="reply" id="reply" placeholder="Type your message here"></textarea>
+                        <div class="postreply"><h5><b>Bình luận</b></h5></div>
+                        <textarea required name="content" id="reply"
+                                  placeholder="Để lại ý kiến của bạn tại đây"></textarea>
+                        @auth
+                        <input type="hidden" name="author_id"
+                               value="{{ \Illuminate\Support\Facades\Auth::user()->id }}">
+                        @endauth
+                        <input type="hidden" name="post_id" value="{{ $post->id }}">
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -214,7 +238,14 @@
                 <div class="pull-right postreply">
                     <div class="pull-left smile"><a href="#"><i class="fa fa-smile-o"></i></a></div>
                     <div class="pull-left">
-                        <button type="submit" class="btn btn-primary">Post Reply</button>
+                        @auth()
+                            <button type="submit" class="btn btn-primary">Đăng</button>
+                        @endauth
+                        @guest()
+                            <button type="button" onclick="window.location.href = '/login'" class="btn btn-primary">Đăng
+                                nhập để bình luận
+                            </button>
+                        @endguest
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -223,7 +254,15 @@
                 <div class="clearfix"></div>
             </div>
         </form>
-    </div><!-- POST -->
+    </div>
+    <!-- POST -->
 
 
+@endsection
+@section('extension')
+@parent
+<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+<script>
+    CKEDITOR.replace('reply');
+</script>
 @endsection

@@ -36,12 +36,12 @@
                         <div class="col-lg-12 col-md-12">
                             <select name="category" id="subcategory" class="form-control" required>
                                 <option value="">Chọn chuyên mục</option>
-                                @if($adminCat)
+                                @if($adminCat != null)
                                     @foreach($adminCat as $cat)
                                         <option
                                             value="{{ $cat->id }}">{{ $cat->category_name .' - '.$cat->isAt->topic_name }}</option>
                                     @endforeach
-                                    @endif
+                                @endif
                                 @foreach($categories as $category)
                                     <option
                                         value="{{ $category->id }}">{{ $category->category_name .' - '.$category->isAt->topic_name }}</option>
@@ -52,8 +52,9 @@
                     </div>
 
                     <div>
-                                            <textarea name="content" id="desc" placeholder="Nội dung"
-                                                      class="form-control"></textarea>
+                        <div class="postreply"><h5><b>Nội dung</b></h5></div>
+                        <textarea required name="content" id="desc" placeholder="Nội dung"
+                                  class="form-control"></textarea>
                     </div>
                     <div class="row newtopcheckbox">
                         <div class="col-lg-6 col-md-6">
@@ -138,11 +139,6 @@
     <!-- POST -->
 
 
-
-
-
-
-
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-xs-12">
@@ -157,3 +153,11 @@
 
 
 @endsection
+@section('extension')
+    @parent
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script>
+        CKEDITOR.replace('desc');
+    </script>
+@endsection
+

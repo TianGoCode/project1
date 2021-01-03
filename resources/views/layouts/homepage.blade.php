@@ -82,9 +82,7 @@
 
                     @guest
                         <div>
-                            <button type="button" class="btn btn-info" onclick="location.href='/';">đăng nhập / đăng
-                                ký
-                            </button>
+                            <button type="button" class="btn btn-info" onclick="location.href='/login';">đăng nhập</button>
                         </div>
                     @endguest
 
@@ -137,7 +135,7 @@
                         <div class="blocktxt">
                             <ul class="cats">
                                 @foreach(\App\Models\Category::all() as $item)
-                                    <li><a href="#">{{ $item->category_name }} <span
+                                    <li><a href="{{ url('category/'.$item->id) }}">{{ $item->category_name }} <span
                                                 class="badge pull-right">{{\Illuminate\Support\Facades\DB::table('posts')->where('category_id','=',$item->id)->count()}}</span></a>
                                     </li>
                                 @endforeach
@@ -223,5 +221,6 @@
 </script>
 
 <!-- END REVOLUTION SLIDER -->
+@yield('extension')
 </body>
 </html>
