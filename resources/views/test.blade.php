@@ -8,12 +8,17 @@
 
 <form method="post" action="/test">
     @csrf
-    <textarea class="form-control" id="summary-ckeditor" name="ckeditor"></textarea>
+    <textarea class="form-control" id="cac" name="cac"></textarea>
     <button type="submit"> gửi lên server</button>
 </form>
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script>
-    CKEDITOR.replace('summary-ckeditor');
+    CKEDITOR.replace('cac', {
+        filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
+        filebrowserUploadMethod: 'form'
+    });
+
+
 </script>
 
 </body>

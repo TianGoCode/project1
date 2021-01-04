@@ -1,4 +1,11 @@
 @extends('layouts.homepage')
+@section('header')
+    <style>
+        .posttext img{
+            max-width: 100%;
+            max-height: -webkit-fill-available;
+        }
+    </style>
 @section('content')
 
 
@@ -25,7 +32,7 @@
             </div>
             <div class="posttext pull-left">
                 <h2>{{ $post->title }}</h2>
-                <p>{{ $post->content }}</p>
+                <p>{!!  $post->content !!}</p>
                 @auth
                     @if(\Illuminate\Support\Facades\Auth::user()->is_admin==1)
                         <form method="post" action="{{ url('approve') }}">
@@ -129,62 +136,6 @@
     @endforeach
     <!-- comment -->
 
-
-
-    <!-- quote -->
-    <div class="post">
-        <div class="topwrap">
-            <div class="userinfo pull-left">
-                <div class="avatar">
-                    <img src="images/avatar3.jpg" alt="">
-                    <div class="status red">&nbsp;</div>
-
-                </div>
-
-                <div class="icons">
-                    <img src="images/icon3.jpg" alt=""><img src="images/icon4.jpg" alt=""><img src="images/icon5.jpg"
-                                                                                               alt=""><img
-                        src="images/icon6.jpg" alt="">
-                </div>
-                <div>con chó</div>
-            </div>
-            <div class="posttext pull-left">
-
-                <blockquote>
-                    <span class="original">Original Posted by - theguy_21:</span>
-                    Did you see that Dove ad pop up in your Facebook feed this year? How about the Geico camel one?
-                </blockquote>
-                <p>Toronto Mayor Rob Ford does not have a bigger fan than "Anchorman's" Ron Burgundy. In fact, Burgundy
-                    wants Ford to be re-elected so much, that he agreed to sing the campaign song Brien. The tune in
-                    question ...</p>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="postinfobot">
-
-            <div class="likeblock pull-left">
-                <a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>55</a>
-                <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>12</a>
-            </div>
-
-            <div class="prev pull-left">
-                <a href="#"><i class="fa fa-reply"></i></a>
-            </div>
-
-            <div class="posted pull-left"><i class="fa fa-clock-o"></i> Posted on : 20 Nov @ 9:50am</div>
-
-            <div class="next pull-right">
-                <a href="#"><i class="fa fa-share"></i></a>
-
-                <a href="#"><i class="fa fa-flag"></i></a>
-            </div>
-
-            <div class="clearfix"></div>
-        </div>
-    </div><!-- POST -->
-
-
-
     <!-- POST -->
     <div class="post">
         <form action="/add_comment" class="form" method="post">
@@ -201,9 +152,9 @@
                             src="images/icon5.jpg" alt=""><img src="images/icon6.jpg" alt="">
                     </div>
                     @auth()
-                    <div>
-                        {{ \Illuminate\Support\Facades\Auth::user()->name }}
-                    </div>
+                        <div>
+                            {{ \Illuminate\Support\Facades\Auth::user()->name }}
+                        </div>
                     @endauth
                     @guest()
                         <div>
@@ -217,8 +168,8 @@
                         <textarea required name="content" id="reply"
                                   placeholder="Để lại ý kiến của bạn tại đây"></textarea>
                         @auth
-                        <input type="hidden" name="author_id"
-                               value="{{ \Illuminate\Support\Facades\Auth::user()->id }}">
+                            <input type="hidden" name="author_id"
+                                   value="{{ \Illuminate\Support\Facades\Auth::user()->id }}">
                         @endauth
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
                     </div>
@@ -254,15 +205,19 @@
                 <div class="clearfix"></div>
             </div>
         </form>
+
     </div>
     <!-- POST -->
 
 
 @endsection
 @section('extension')
-@parent
-<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-<script>
-    CKEDITOR.replace('reply');
-</script>
+    @parent
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script>
+        CKEDITOR.replace('reply', {
+            filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
+            filebrowserUploadMethod: 'form'
+        });
+    </script>
 @endsection
