@@ -1,13 +1,5 @@
 @extends('layouts.homepage')
 @section('content')
-
-
-
-
-
-
-
-
     <!-- POST -->
     <div class="post">
         <form action="/create" class="form newtopic" method="post">
@@ -15,7 +7,13 @@
             <div class="topwrap">
                 <div class="userinfo pull-left">
                     <div class="avatar">
-                        <img src="{{ asset("layout/images/avatar4.jpg") }}" alt=""/>
+                        @if(\Illuminate\Support\Facades\Auth::user()->avatar)
+                            <img src="{{ asset('/storage/'.\Illuminate\Support\Facades\Auth::user()->avatar) }}"
+                                 width="70px" height="70px" alt=""/>
+                        @else
+                            <img src="{{ asset("layout/images/avatar.jpg") }}"
+                                 alt="" width="40px" height="40px"/>
+                        @endif
                     </div>
                     <div class="icons">
                         <img src="{{ asset("layout/images/icon3.jpg") }}" alt=""/><img

@@ -16,10 +16,13 @@ class PostController extends Controller
         if ($id == null) {
             return redirect('/home');
         }
+
         $post = Post::find($id);
+
         if (!Auth::user()) {
             if ($post->approved != 1) {
                 return redirect('/home');
+                //them thong bao vai viet chua dc duyet
             }
             return view('post.show', ['post' => $post]);
         }
@@ -27,6 +30,11 @@ class PostController extends Controller
 
         if (Auth::user()->is_admin == 1 || Auth::user()->id == $post->author_id) {
             return view('post.show', ['post' => $post]);
+        } else {
+            if($post->approved != 1){
+                return redirect('/home');
+                //them thong bao bai viet chua tge ghuebn th
+            }
         }
 
         return view('post.show', [
@@ -62,7 +70,7 @@ class PostController extends Controller
         $post->title = $request->input('title');
         $post->content = $request->input('content');
         $post->save();
-        return redirect('/head');
+        return redirect('/home');
     }
 
     public function categoryView($id)

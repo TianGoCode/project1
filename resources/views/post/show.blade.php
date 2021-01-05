@@ -1,38 +1,46 @@
 @extends('layouts.homepage')
 @section('header')
     <style>
-        .posttext img{
-            max-width: 100%;
-            max-height: -webkit-fill-available;
+        .posttext img {
+            width: 100% !important;
+            height: 100% !important;
         }
     </style>
+@endsection
 @section('content')
 
 
     <!-- POST -->
-
-
-
     <div class="post beforepagination">
         <div class="topwrap">
             <div class="userinfo pull-left">
+
                 <div class="avatar">
-                    <img src="{{ asset("layout/images/avatar.jpg") }}" alt="">
-                    <div class="status green">&nbsp;</div>
+                    @if($post->author->avatar)
+                        <img src="{{ asset('/storage/'.$post->author->avatar) }}"
+                             alt="" width="70px" height="70px"/>
+                    @else
+                        <img src="{{ asset("layout/images/avatar.jpg") }}"
+                             alt="" width="40px" height="40px"/>
+                    @endif
                 </div>
 
+
                 <div class="icons">
-                    <img src="images/icon1.jpg" alt=""><img src="images/icon4.jpg" alt=""><img src="images/icon5.jpg"
-                                                                                               alt=""><img
-                        src="images/icon6.jpg" alt="">
+                    <img src="{{ asset("layout/images/icon3.jpg") }}" alt=""/><img
+                        src="{{ asset("layout/images/icon4.jpg") }}" alt=""/><img
+                        src="{{ asset("layout/images/icon5.jpg") }}" alt=""/><img
+                        src="{{ asset("layout/images/icon6.jpg") }}" alt=""/>
                 </div>
                 <div>
                     {{ $post->author->name }}
                 </div>
             </div>
+
             <div class="posttext pull-left">
                 <h2>{{ $post->title }}</h2>
-                <p>{!!  $post->content !!}</p>
+                <hr>
+                <div class="container-fluid">{!!  $post->content !!}</div>
                 @auth
                     @if(\Illuminate\Support\Facades\Auth::user()->is_admin==1)
                         <form method="post" action="{{ url('approve') }}">
@@ -68,10 +76,6 @@
                 <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>0</a>
             </div>
 
-            <div class="prev pull-left">
-                <a href="#"><i class="fa fa-reply"></i></a>
-            </div>
-
             <div class="posted pull-left"><i class="fa fa-clock-o"></i> Đăng vào ngày : {{ $post->updated_at }}</div>
 
             <div class="next pull-right" style="display: flex">
@@ -95,16 +99,14 @@
             <div class="topwrap">
                 <div class="userinfo pull-left" style="">
                     <div class="avatar">
-                        <img src="{{ asset("layout/images/avatar2.jpg") }}" alt="">
-                        <div class="status red">&nbsp;</div>
+                        <img src="{{ asset('/storage/'.$comment->user->avatar) }}" alt="" width="70px" height="70px" >
 
                     </div>
-
                     <div class="icons">
-                        <img src="images/icon3.jpg" alt=""><img src="images/icon4.jpg" alt=""><img
-                            src="images/icon5.jpg"
-                            alt=""><img
-                            src="images/icon6.jpg" alt="">
+                        <img src="{{ asset("layout/images/icon3.jpg") }}" alt=""/><img
+                            src="{{ asset("layout/images/icon4.jpg") }}" alt=""/><img
+                            src="{{ asset("layout/images/icon5.jpg") }}" alt=""/><img
+                            src="{{ asset("layout/images/icon6.jpg") }}" alt=""/>
                     </div>
                     <div>{{ $comment->user->name }}</div>
                 </div>
@@ -120,9 +122,6 @@
                     <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>0</a>
                 </div>
 
-                <div class="prev pull-left">
-                    <a href="#"><i class="fa fa-reply"></i></a>
-                </div>
 
                 <div class="posted pull-left"><i class="fa fa-clock-o"></i> Đăng vào luc : {{ $comment->created_at }}
                 </div>
@@ -136,20 +135,35 @@
     @endforeach
     <!-- comment -->
 
-    <!-- POST -->
+    <!-- add comment -->
     <div class="post">
         <form action="/add_comment" class="form" method="post">
             @csrf
             <div class="topwrap">
                 <div class="userinfo pull-left" style="">
                     <div class="avatar">
-                        <img src="images/avatar4.jpg" alt="">
-                        <div class="status red">&nbsp;</div>
+                        @auth()
+                            @if(\Illuminate\Support\Facades\Auth::user()->avatar)
+                                <img src="{{ asset('/storage/'.\Illuminate\Support\Facades\Auth::user()->avatar) }}"
+                                     alt="" width="70px" height="70px"/>
+                            @else
+                                <img src="{{ asset("layout/images/avatar.jpg") }}"
+                                     alt="" width="40px" height="40px"/>
+                            @endif
+                        @endauth
+
+                        @guest()
+                            <img src="{{ asset("layout/images/avatar.jpg") }}"
+                                 alt="" width="40px" height="40px"/>
+                        @endguest
+
                     </div>
 
                     <div class="icons">
-                        <img src="images/icon3.jpg" alt=""><img src="images/icon4.jpg" alt=""><img
-                            src="images/icon5.jpg" alt=""><img src="images/icon6.jpg" alt="">
+                        <img src="{{ asset("layout/images/icon3.jpg") }}" alt=""/><img
+                            src="{{ asset("layout/images/icon4.jpg") }}" alt=""/><img
+                            src="{{ asset("layout/images/icon5.jpg") }}" alt=""/><img
+                            src="{{ asset("layout/images/icon6.jpg") }}" alt=""/>
                     </div>
                     @auth()
                         <div>
@@ -193,21 +207,19 @@
                             <button type="submit" class="btn btn-primary">Đăng</button>
                         @endauth
                         @guest()
-                            <button type="button" onclick="window.location.href = '/login'" class="btn btn-primary">Đăng
+                            <a type="button" href="{{ route('login') }}" class="btn btn-primary">Đăng
                                 nhập để bình luận
-                            </button>
+                            </a>
                         @endguest
                     </div>
                     <div class="clearfix"></div>
                 </div>
-
-
                 <div class="clearfix"></div>
             </div>
         </form>
 
     </div>
-    <!-- POST -->
+    <!-- add comment -->
 
 
 @endsection

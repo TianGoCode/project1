@@ -31,6 +31,10 @@ Route::get('/category/{id}', [App\Http\Controllers\PostController::class, 'categ
 
 //comment
 Route::post('/add_comment',[App\Http\Controllers\CommentController::class, 'store']);
+//user
+Route::get('/profile/{id}',[App\Http\Controllers\UserController::class, 'show']);
+Route::get('/profile/{id}/edit',[App\Http\Controllers\UserController::class, 'edit'])->name('editProfile')->middleware('auth');
+Route::post('/edit_profile',[App\Http\Controllers\UserController::class, 'update'])->middleware('auth');
 
 //admin
 Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index']);

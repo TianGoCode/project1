@@ -60,13 +60,8 @@
                             alt=""/></a></div>
                 <div class="col-lg-3 col-xs-9 col-sm-5 col-md-3 selecttopic">
                     <div class="dropdown">
-                        <a data-toggle="dropdown" href="#">Borderlands 2</a> <b class="caret"></b>
-                        <ul class="dropdown-menu" role="menu">
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Borderlands 1</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Borderlands 2</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-3" href="#">Borderlands 3</a></li>
+                        <a href="/">Simple Forum</a>
 
-                        </ul>
                     </div>
                 </div>
                 <div class="col-lg-2 search hidden-xs hidden-sm col-md-3">
@@ -82,22 +77,30 @@
 
                     @guest
                         <div>
-                            <button type="button" class="btn btn-info" onclick="location.href='/login';">đăng nhập</button>
+                            <a type="button" class="btn btn-info" href="{{ route('login') }}">đăng nhập</a>
                         </div>
                     @endguest
 
                     @auth
                         <div class="avatar pull-left dropdown">
-                            <a data-toggle="dropdown" href="#"><img src="{{ asset("layout/images/avatar.jpg") }}"
-                                                                    alt=""/></a> <b class="caret"></b>
-                            <div class="status green">&nbsp;</div>
+                            <a data-toggle="dropdown" href="#">
+                                @if(\Illuminate\Support\Facades\Auth::user()->avatar)
+                                <img src="{{ asset('/storage/'.\Illuminate\Support\Facades\Auth::user()->avatar) }}"
+                                     alt="" width="40px" height="40px"/></a>
+                                @else
+                                <img src="{{ asset("layout/images/avatar.jpg") }}"
+                                     alt="" width="40px" height="40px"/></a>
+                                @endif
+
+                            <b class="caret"></b>
+
                             <ul class="dropdown-menu" role="menu">
                                 @if(\Illuminate\Support\Facades\Auth::user()->is_admin==1)
                                     <li role="presentation"><a role="menuitem" tabindex="-1" href="admin">Admin
                                             Dashboard</a></li>
                                 @endif
 
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Thông tin cá nhân</a>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{url('profile/'.\Illuminate\Support\Facades\Auth::id())}}">Thông tin cá nhân</a>
                                 </li>
                                 <li role="presentation"><a role="menuitem" tabindex="-3" href="{{ route('logout') }}"
                                                            onclick="event.preventDefault();
@@ -120,7 +123,7 @@
     </div>
 
 
-    <section class="content">
+    <section class="content" style="min-height: 550px">
         <div class="container" style="padding-top:25px">
             <div class="row">
                 <div class="col-lg-8 col-md-8">
@@ -173,7 +176,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-1 col-xs-3 col-sm-2 logo "><a href="#"><img src="images/logo.jpg" alt=""/></a></div>
-                <div class="col-lg-8 col-xs-9 col-sm-5 ">Copyrights 2014, websitename.com</div>
+                <div class="col-lg-8 col-xs-9 col-sm-5 ">2020, Simple Forum - HUST</div>
                 <div class="col-lg-3 col-xs-12 col-sm-5 sociconcent">
                     <ul class="socialicons">
                         <li><a href="#"><i class="fa fa-facebook-square"></i></a></li>
