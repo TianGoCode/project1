@@ -14,6 +14,7 @@
     - tạo file .env, config database, tạo schema tương ứng trong csdl
     - php artisan key:generate
     - php artisan migrate --seed
+    - xóa thư mục storage trong folder public nếu có, php artisan storage:link
     - php artisan serve
     - tạo tài khoản đầu tiên, cấp quyền admin bằng tay.... :((((
 - đã bao gồm: giao diện admin và xem bài
