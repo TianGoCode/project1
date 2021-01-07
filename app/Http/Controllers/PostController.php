@@ -12,17 +12,20 @@ class PostController extends Controller
 {
     public function show($id)
     {
-
         if ($id == null) {
+            session()->flash('unknown', 'Bài viết không tồn tại');
+            return redirect('/home');
+        }
+        $post = Post::find($id);
+        if (!$post) {
+            session()->flash('unknown', 'Bài viết không tồn tại');
             return redirect('/home');
         }
 
-        $post = Post::find($id);
-
         if (!Auth::user()) {
             if ($post->approved != 1) {
+                session()->flash('unavailable', 'Bài viết chưa thể truy cập');
                 return redirect('/home');
-                //them thong bao vai viet chua dc duyet
             }
             return view('post.show', ['post' => $post]);
         }
@@ -31,7 +34,8 @@ class PostController extends Controller
         if (Auth::user()->is_admin == 1 || Auth::user()->id == $post->author_id) {
             return view('post.show', ['post' => $post]);
         } else {
-            if($post->approved != 1){
+            if ($post->approved != 1) {
+                session()->flash('unavailable', 'Bài viết chưa thể truy cập');
                 return redirect('/home');
                 //them thong bao bai viet chua tge ghuebn th
             }
@@ -46,7 +50,7 @@ class PostController extends Controller
     {
         $categories = Category::all()->where('topic_id', '<>', 1);
 
-        if(Auth::user()->is_admin == 1){
+        if (Auth::user()->is_admin == 1) {
             $adminCat = Category::all()->where('topic_id', '=', 1);
         } else {
             $adminCat = null;
@@ -70,6 +74,7 @@ class PostController extends Controller
         $post->title = $request->input('title');
         $post->content = $request->input('content');
         $post->save();
+        @session()->flash('create','Tạo bài viết thành công, hãy đợi kết quả từ quản trị viên');
         return redirect('/home');
     }
 

@@ -9,7 +9,12 @@
 @endsection
 @section('content')
 
-
+    @if(session()->has('success'))
+        <div class="alert alert-success">
+            {{ session()->get('success') }}
+            {{ session()->get('success') }}
+        </div>
+    @endif
     <!-- POST -->
     <div class="post beforepagination">
         <div class="topwrap">
@@ -50,8 +55,18 @@
                             </button>
                             <button type="submit" name="status" class="btn btn-danger" value="0">Cấm bài viết</button>
                         </form>
-                    @endif
-                    @if(\Illuminate\Support\Facades\Auth::user()->id==$post->author_id)
+                        <blockquote>
+                            <span class="original">From admin</span>
+                            @if($post->is_banned == 1)
+                                <p>Tình trạng: bài viết đang bị cấm</p>
+                            @elseif($post->approved == 1)
+                                <p>bài viết đã được duyệt</p>
+                            @else
+                                <p>bài viết chưa được xét duyệt</p>
+                            @endif
+                        </blockquote>
+
+                    @elseif(\Illuminate\Support\Facades\Auth::user()->id==$post->author_id)
 
                         <blockquote>
                             <span class="original">From admin</span>

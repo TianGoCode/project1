@@ -2,22 +2,29 @@
 @section('main')
     <div
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
+
         <h1 class="h2">Tạo Chuyên mục</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+
             </div>
-            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                <span data-feather="calendar"></span>
-                This week
-            </button>
+
         </div>
     </div>
-    @dump($topics)
-    @dump($categories)
+
     <h2>Tạo chuyên mục mới</h2>
     <hr>
+    @if(session()->has('success'))
+        <div class="alert alert-success">
+            {{ session()->get('success') }}
+        </div>
+    @endif
+    @if(session()->has('fail'))
+        <div class="alert alert-warning">
+            {{ session()->get('fail') }}
+        </div>
+    @endif
     <div>
         <form method="post" action="/create_category">
             @csrf
@@ -47,7 +54,8 @@
             @csrf
             <div class="mb-3">
                 <label for="select" class="form-label">Chuyên mục</label>
-                <select name="category" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
+                <select name="category" class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        required>
                     <option value="">Chọn chuyên mục</option>
                     @foreach($categories as $item)
                         <option value="{{ $item->id }}">{{ $item->category_name }}</option>

@@ -1,5 +1,25 @@
 @extends('layouts.homepage')
 @section('content')
+    @if(session()->has('unknown'))
+        <div class="alert alert-warning">
+            {{ session()->get('unknown') }}
+        </div>
+    @endif
+    @if(session()->has('unavailable'))
+        <div class="alert alert-warning">
+            {{ session()->get('unavailable') }}
+        </div>
+    @endif
+    @if(session()->has('create'))
+        <div class="alert alert-success">
+            {{ session()->get('create') }}
+        </div>
+    @endif
+    @if(session()->has('privilege'))
+        <div class="alert alert-danger">
+            {{ session()->get('privilege') }}
+        </div>
+    @endif
     <div class="list-group">
         <a href="'#" class="list-group-item active" aria-current="true">
             <div class="d-flex w-100 justify-content-between">

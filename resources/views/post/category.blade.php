@@ -18,8 +18,11 @@
                                     @endif
                                     @endguest
                                     @auth()
-                                        @if(\Illuminate\Support\Facades\Auth::user()->is_admin==1)
+                                        @if(\Illuminate\Support\Facades\Auth::user()->is_admin==1 )
                                             <a href="{{ url('show/'.$p->id)}}" class="list-group-item">
+                                                @elseif( \Illuminate\Support\Facades\Auth::id() == $p->author->id)
+                                                    <a href="{{ url('show/'.$p->id)}}" class="list-group-item">
+                                                        <small class="text-muted">Bài viết chưa thể truy cập</small><br>
                                                 @elseif($p->approved != 1 )
                                                     <a href="#" class="list-group-item">
                                                         <small class="text-muted">Bài viết chưa thể truy cập</small><br>

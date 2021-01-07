@@ -5,17 +5,18 @@
         <h1 class="h2">Duyệt bài viết</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
             </div>
-            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                <span data-feather="calendar"></span>
-                This week
-            </button>
         </div>
-        @isset($posts)
-            @dump($posts)
-        @endisset
+        @if(session()->has('success'))
+            <div class="alert alert-success">
+                {{ session()->get('success') }}
+            </div>
+        @endif
+        @if(session()->has('alert'))
+            <div class="alert alert-danger">
+                {{ session()->get('alert') }}
+            </div>
+        @endif
     </div>
     <h2>Danh sách bài viết</h2>
     <div class="table-responsive">

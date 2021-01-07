@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         DB::table('categories')->insert(['id'=>2,'category_name'=>'Nội quy forum','topic_id'=>1]);
         DB::table('categories')->insert(['id'=>3,'category_name'=>'Giải đáp chung','topic_id'=>2]);
         DB::table('categories')->insert(['id'=>4,'category_name'=>'Chia sẻ chung','topic_id'=>3]);
+        DB::table('categories')->insert(['id'=>5,'category_name'=>'Ý kiến/Góp ý/Khiếu nại','topic_id'=>1]);
     }
 }

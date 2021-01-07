@@ -10,6 +10,11 @@
 @endsection
 @section('content')
     <div class="post">
+        @if(session()->has('success'))
+            <div class="alert alert-success">
+                {{ session()->get('success') }}
+            </div>
+        @endif
         <div class="container-fluid">
             <div class="main-body">
                 <div class="row gutters-sm">
@@ -114,4 +119,7 @@
             </div>
         </div>
     </div>
+@endsection
+@section('extension')
+  
 @endsection

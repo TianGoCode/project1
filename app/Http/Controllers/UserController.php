@@ -17,6 +17,7 @@ class UserController extends Controller
     public function edit($id)
     {
         if (Auth::id() != $id) {
+            session()->flash('privilege','Không có quyền truy cập');
             return redirect('/');
         }
         $user = User::find($id);
@@ -50,6 +51,7 @@ class UserController extends Controller
         }
         $user->touch();
         $user->save();
+        session()->flash('success','Cập nhật thông tin thành công');
         return redirect('/profile/' . $request->input('uid'));
     }
 }

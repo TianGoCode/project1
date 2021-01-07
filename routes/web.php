@@ -53,3 +53,5 @@ Route::post('/test',function (\Illuminate\Http\Request $request){
     return response()->json($request->all());
 });
 Route::post('ckeditor/image_upload', [App\Http\Controllers\CKEditorController::class, 'upload'])->name('upload');
+
+

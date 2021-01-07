@@ -73,16 +73,16 @@
                             <button class="btn btn-primary">Tạo bài viết mới</button>
                         </form>
                     </div>
-                    <div class="env pull-left"><i class="fa fa-envelope"></i></div>
+
 
                     @guest
-                        <div>
-                            <a type="button" class="btn btn-info" href="{{ route('login') }}">đăng nhập</a>
+                        <div >
+                            <a style="margin-left: 58px;" type="button" class="btn btn-info" href="{{ route('login') }}">đăng nhập</a>
                         </div>
                     @endguest
 
                     @auth
-                        <div class="avatar pull-left dropdown">
+                        <div style="margin-left: 58px;" class="avatar pull-left dropdown">
                             <a data-toggle="dropdown" href="#">
                                 @if(\Illuminate\Support\Facades\Auth::user()->avatar)
                                 <img src="{{ asset('/storage/'.\Illuminate\Support\Facades\Auth::user()->avatar) }}"
@@ -94,9 +94,10 @@
 
                             <b class="caret"></b>
 
+
                             <ul class="dropdown-menu" role="menu">
                                 @if(\Illuminate\Support\Facades\Auth::user()->is_admin==1)
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="admin">Admin
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ url('admin') }}">Admin
                                             Dashboard</a></li>
                                 @endif
 
