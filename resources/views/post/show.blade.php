@@ -22,15 +22,15 @@
 
                 <div class="avatar">
                     @if($post->author->avatar)
-                        <img src="{{ asset('/storage/'.$post->author->avatar) }}"
-                             alt="" width="70px" height="70px"/>
+                        <a href="{{ url('profile/'.$post->author->id) }}"><img
+                                src="{{ asset('/storage/'.$post->author->avatar) }}"
+                                alt="" width="70px" height="70px"/></a>
+
                     @else
                         <img src="{{ asset("layout/images/avatar.jpg") }}"
                              alt="" width="40px" height="40px"/>
                     @endif
                 </div>
-
-
                 <div class="icons">
                     <img src="{{ asset("layout/images/icon3.jpg") }}" alt=""/><img
                         src="{{ asset("layout/images/icon4.jpg") }}" alt=""/><img
@@ -47,7 +47,7 @@
                 <hr>
                 <div class="container-fluid">{!!  $post->content !!}</div>
                 @auth
-                    @if(\Illuminate\Support\Facades\Auth::user()->is_admin==1)
+                    @if($currentUser->is_admin==1)
                         <form method="post" action="{{ url('approve') }}">
                             @csrf
                             <input type="hidden" name="post_id" value="{{ $post->id }}">
@@ -66,7 +66,7 @@
                             @endif
                         </blockquote>
 
-                    @elseif(\Illuminate\Support\Facades\Auth::user()->id==$post->author_id)
+                    @elseif($currentUser->id==$post->author_id)
 
                         <blockquote>
                             <span class="original">From admin</span>
@@ -87,8 +87,22 @@
         <div class="postinfobot">
 
             <div class="likeblock pull-left">
-                <a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>0</a>
-                <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>0</a>
+                @guest()
+                    <a href="#" class="up"><i class="fa fa-thumbs-o-up"></i><span
+                            id="{{'p'.$post->id.'up'}}"></span></a>
+
+                    <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i><span
+                            id="{{'p'.$post->id.'down'}}"></span></a>
+                @endguest
+                @auth
+                    <a class="up" style="cursor: pointer" onclick="upPost({{$post->id}},{{$currentUser->id}})"><i
+                            class="fa fa-thumbs-o-up"></i><span
+                            id="{{'p'.$post->id.'up'}}"></span></a>
+
+                    <a class="down" style="cursor: pointer" onclick="downPost({{$post->id}},{{$currentUser->id}})"><i
+                            class="fa fa-thumbs-o-down"></i><span
+                            id="{{'p'.$post->id.'down'}}"></span></a>
+                @endauth
             </div>
 
             <div class="posted pull-left"><i class="fa fa-clock-o"></i> Đăng vào ngày : {{ $post->updated_at }}</div>
@@ -114,7 +128,9 @@
             <div class="topwrap">
                 <div class="userinfo pull-left" style="">
                     <div class="avatar">
-                        <img src="{{ asset('/storage/'.$comment->user->avatar) }}" alt="" width="70px" height="70px" >
+                        <a href="{{ url('profile/'.$comment->user->id) }}"><img
+                                src="{{ asset('/storage/'.$comment->user->avatar) }}" alt="" width="70px" height="70px"></a>
+
 
                     </div>
                     <div class="icons">
@@ -131,7 +147,6 @@
                 <div class="clearfix"></div>
             </div>
             <div class="postinfobot">
-
                 <div class="likeblock pull-left">
                     <a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>0</a>
                     <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>0</a>
@@ -158,8 +173,8 @@
                 <div class="userinfo pull-left" style="">
                     <div class="avatar">
                         @auth()
-                            @if(\Illuminate\Support\Facades\Auth::user()->avatar)
-                                <img src="{{ asset('/storage/'.\Illuminate\Support\Facades\Auth::user()->avatar) }}"
+                            @if($currentUser->avatar)
+                                <img src="{{ asset('/storage/'.$currentUser->avatar) }}"
                                      alt="" width="70px" height="70px"/>
                             @else
                                 <img src="{{ asset("layout/images/avatar.jpg") }}"
@@ -182,7 +197,7 @@
                     </div>
                     @auth()
                         <div>
-                            {{ \Illuminate\Support\Facades\Auth::user()->name }}
+                            {{ $currentUser->name }}
                         </div>
                     @endauth
                     @guest()
@@ -198,7 +213,7 @@
                                   placeholder="Để lại ý kiến của bạn tại đây"></textarea>
                         @auth
                             <input type="hidden" name="author_id"
-                                   value="{{ \Illuminate\Support\Facades\Auth::user()->id }}">
+                                   value="{{ $currentUser->id }}">
                         @endauth
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
                     </div>
@@ -246,5 +261,17 @@
             filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
             filebrowserUploadMethod: 'form'
         });
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="{{ asset('js/firebase.js') }}"></script>
+    <script>
+        firebase.firestore().collection('posts').doc('{{$post->id}}').onSnapshot(function (doc) {
+            if (!(doc.exists)) {
+                firebase.firestore().collection('posts').doc('{{$post->id}}').set({up: [], down: []})
+            }
+            document.getElementById('{!! 'p'.$post->id.'up' !!}').innerHTML = doc.data().up.length;
+            document.getElementById('{{ 'p'.$post->id.'down' }}').innerHTML = doc.data().down.length;
+        })
     </script>
 @endsection

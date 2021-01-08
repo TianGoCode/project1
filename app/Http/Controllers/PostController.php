@@ -12,6 +12,7 @@ class PostController extends Controller
 {
     public function show($id)
     {
+
         if ($id == null) {
             session()->flash('unknown', 'Bài viết không tồn tại');
             return redirect('/home');
@@ -22,6 +23,7 @@ class PostController extends Controller
             return redirect('/home');
         }
 
+
         if (!Auth::user()) {
             if ($post->approved != 1) {
                 session()->flash('unavailable', 'Bài viết chưa thể truy cập');
@@ -30,9 +32,9 @@ class PostController extends Controller
             return view('post.show', ['post' => $post]);
         }
 
-
+        $currentUser = Auth::user();
         if (Auth::user()->is_admin == 1 || Auth::user()->id == $post->author_id) {
-            return view('post.show', ['post' => $post]);
+            return view('post.show', ['post' => $post, 'currentUser'=>$currentUser]);
         } else {
             if ($post->approved != 1) {
                 session()->flash('unavailable', 'Bài viết chưa thể truy cập');
@@ -42,7 +44,8 @@ class PostController extends Controller
         }
 
         return view('post.show', [
-            'post' => $post
+            'post' => $post,
+            'currentUser'=>$currentUser
         ]);
     }
 

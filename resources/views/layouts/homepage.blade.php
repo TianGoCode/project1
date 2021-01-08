@@ -76,8 +76,9 @@
 
 
                     @guest
-                        <div >
-                            <a style="margin-left: 58px;" type="button" class="btn btn-info" href="{{ route('login') }}">đăng nhập</a>
+                        <div>
+                            <a style="margin-left: 58px;" type="button" class="btn btn-info"
+                               href="{{ route('login') }}">đăng nhập</a>
                         </div>
                     @endguest
 
@@ -85,12 +86,12 @@
                         <div style="margin-left: 58px;" class="avatar pull-left dropdown">
                             <a data-toggle="dropdown" href="#">
                                 @if(\Illuminate\Support\Facades\Auth::user()->avatar)
-                                <img src="{{ asset('/storage/'.\Illuminate\Support\Facades\Auth::user()->avatar) }}"
-                                     alt="" width="40px" height="40px"/></a>
-                                @else
+                                    <img src="{{ asset('/storage/'.\Illuminate\Support\Facades\Auth::user()->avatar) }}"
+                                         alt="" width="40px" height="40px"/></a>
+                            @else
                                 <img src="{{ asset("layout/images/avatar.jpg") }}"
                                      alt="" width="40px" height="40px"/></a>
-                                @endif
+                            @endif
 
                             <b class="caret"></b>
 
@@ -101,7 +102,9 @@
                                             Dashboard</a></li>
                                 @endif
 
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{url('profile/'.\Illuminate\Support\Facades\Auth::id())}}">Thông tin cá nhân</a>
+                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                           href="{{url('profile/'.\Illuminate\Support\Facades\Auth::id())}}">Thông
+                                        tin cá nhân</a>
                                 </li>
                                 <li role="presentation"><a role="menuitem" tabindex="-3" href="{{ route('logout') }}"
                                                            onclick="event.preventDefault();
@@ -160,12 +163,34 @@
                         @endguest
                         @auth()
                             <h3>Bài viết của tôi</h3>
-                            @foreach(\App\Models\Post::where('author_id',\Illuminate\Support\Facades\Auth::user()->id)->take(5)->get() as $mine)
+                            @foreach(\App\Models\Post::where('author_id',\Illuminate\Support\Facades\Auth::user()->id)->paginate(5) as $mine)
                                 <div class="divline"></div>
                                 <div class="blocktxt">
-                                    <a href="{{ url('/show/'.$mine->id) }}">{{ $mine->title }}</a>
+                                    <a href="{{ url('/show/'.$mine->id) }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+                                        </svg> {{ $mine->title }}</a>
+                                    @if($mine->approved == 1)
+                                        <p> Bài viết được duyêt vào lúc {{ $mine->updated_at }}</p>
+                                    @elseif($mine->banned ==1)
+                                        <p>Bài viết bị cấm vào lúc {{ $mine->updated_at }}</p>
+                                    @else
+                                        <p> Bài viết đang được xem xét</p>
+                                    @endif
                                 </div>
                             @endforeach
+                            <div class="divline"></div>
+                            <div class="blocktxt">
+                                <a class="btn btn-success"
+                                   href="{{ \App\Models\Post::where('author_id',\Illuminate\Support\Facades\Auth::user()->id)->paginate(5)->previousPageUrl() }}">Trang
+                                    trước</a>
+                                <a class="btn btn-success"
+                                   href="{{ \App\Models\Post::where('author_id',\Illuminate\Support\Facades\Auth::user()->id)->paginate(5)->nextPageUrl() }}">Trang
+                                    kế</a>
+                            </div>
+
                         @endauth
                     </div>
                 </div>

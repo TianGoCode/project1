@@ -40,7 +40,8 @@ class AdminController extends Controller
 
     public function users()
     {
-
+        $user = User::all();
+        return view('admin.users', ['users' => $user]);
     }
 
     public function createTopic()
@@ -51,7 +52,7 @@ class AdminController extends Controller
         return view('admin.topic', ['topics' => $topics, 'categories' => $categories]);
     }
 
-    public function createNewCat(Request $request)
+    public function createNewCat(Riequest $request)
     {
         $category = new Category();
         $check = Category::all()->where('category_name', '=', $request->input('new-name'));
@@ -68,20 +69,29 @@ class AdminController extends Controller
 
     public function editCat(Request $request)
     {
-
         $category = Category::find($request->input('category'));
-        $category->category_name = $request->input('new-name');
-        $check1 = DB::table('categories')->where('category_name','=',$request->input('new-name'))->where('topic_id','=',$request->input('topic'))->first();
-        $check2 = DB::table('categories')->where('category_name','=',$request->input('new-name'))->first();
-        if($check1 || $check2){
-            session()->flash('fail', 'Chuyên mục đã tồn tại');
+        $option = $request->input('action');
+        if ($option === 'edit') {
+            if ($request->input('new-name') != null) {
+                $category->category_name = $request->input('new-name');
+                $check1 = DB::table('categories')->where('category_name', '=', $request->input('new-name'))->where('topic_id', '=', $request->input('topic'))->first();
+                $check2 = DB::table('categories')->where('category_name', '=', $request->input('new-name'))->first();
+                if ($check1 || $check2) {
+                    session()->flash('fail', 'Chuyên mục đã tồn tại');
+                    return redirect('/admin/topic');
+                }
+            }
+            $category->topic_id = $request->input('topic');
+            $category->touch();
+            $category->save();
+            session()->flash('success', 'Chỉnh sửa tên chuyên mục thành công');
             return redirect('/admin/topic');
         }
-        $category->topic_id = $request->input('topic');
-        $category->touch();
-        $category->save();
-        session()->flash('success', 'Chỉnh sửa tên chuyên mục thành công');
-        return redirect('/admin/topic');
+        if ($option === 'delete') {
+            $category->delete();
+            session()->flash('success', 'Xóa chuyên mục thành công');
+            return redirect('/admin/topic');
+        }
     }
 
     public function acceptPost(Request $request)
@@ -94,13 +104,13 @@ class AdminController extends Controller
             $post->is_banned = null;
             $post->touch();
             $post->save();
-            session()->flash('success','Bài viết đã được duyệt');
+            session()->flash('success', 'Bài viết đã được duyệt');
         } else if ($status == 0) {
             $post->approved = null;
             $post->is_banned = 1;
             $post->touch();
             $post->save();
-            session()->flash('alert','Bài viết đã bị cấm');
+            session()->flash('alert', 'Bài viết đã bị cấm');
         }
         return redirect('/admin/approve');
     }

@@ -47,7 +47,7 @@
         </form>
     </div>
     <br>
-    <h2>Chỉnh sửa tên chuyên mục</h2>
+    <h2>Chỉnh sửa chuyên mục</h2>
     <hr>
     <div>
         <form action="/edit_category" method="post">
@@ -65,7 +65,7 @@
 
             <div class="mb-3">
                 <label for="name" class="form-label">Tên mới</label>
-                <input type="text" name="new-name" class="form-control" id="name" aria-describedby="new" required>
+                <input type="text" name="new-name" class="form-control" id="name" aria-describedby="new">
                 <div class="form-text">Chỉnh sửa tên chuyên mục</div>
             </div>
             <div class="mb-3">
@@ -75,6 +75,14 @@
                     @foreach($topics as $item)
                         <option value="{{ $item->id }}">{{ $item->topic_name }}</option>
                     @endforeach
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="select" class="form-label">Hành động</label>
+                <select name="action" class="form-select form-select-sm" aria-label=".form-select-sm example" required>
+                    <option value="">Chọn Hành động</option>
+                    <option value="edit">Sửa tên</option>
+                    <option value="delete">Xóa</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
